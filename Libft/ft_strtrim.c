@@ -6,7 +6,7 @@
 /*   By: yakombo- <yakombo-@learner.42.tech>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 19:06:18 by yannkombo-l       #+#    #+#             */
-/*   Updated: 2026/04/22 18:54:33 by yakombo-         ###   ########.fr       */
+/*   Updated: 2026/04/22 21:46:10 by yakombo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	main(void)
 	printf("%s\n", result);
 	free (result);
 }
-/*
+
 char	*trimmed(char const *s1, char const *set)
 {
 	size_t	i;
@@ -102,7 +102,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 		{
 			if (set[j] == s1[i])
 				i++;
-			else if
 		}
 	}
-}*/
+}
