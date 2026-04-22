@@ -6,7 +6,7 @@
 /*   By: yakombo- <yakombo-@learner.42.tech>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 19:06:18 by yannkombo-l       #+#    #+#             */
-/*   Updated: 2026/04/22 21:46:10 by yakombo-         ###   ########.fr       */
+/*   Updated: 2026/04/22 21:47:34 by yakombo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ int	main(void)
 {
 	char	*result;
 	char	*s1 = "abcJe m'appelle Yannabcabcn";
-	char	*s2 = "abc";
+//	char	*s2 = "abc";
 
-	result = ft_strtrim(s1, s2);
+//	result = ft_strtrim(s1, s2);
 	printf("%s\n", result);
 	free (result);
 }
