@@ -65,9 +65,9 @@ int	main(void)
 {
 	char	*result;
 	char	*s1 = "abcJe m'appelle Yannabcabcn";
-//	char	*s2 = "abc";
+	char	*s2 = "abc";
 
-//	result = ft_strtrim(s1, s2);
+	result = ft_strtrim(s1, s2);
 	printf("%s\n", result);
 	free (result);
 }
