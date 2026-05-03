@@ -32,5 +32,6 @@ int				hexa(unsigned long c1, char c);
 int				count_hex(unsigned long nb);
 int				write_unsint(unsigned int nb);
 void			ft_putnbr_u(unsigned int nb);
+size_t	        ft_strlen(const char *str);
 
 #endif

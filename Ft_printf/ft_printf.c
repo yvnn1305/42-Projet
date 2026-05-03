@@ -75,9 +75,9 @@ int	main(void)
 
 
 	printf("--- FT - s ---\n");
-	printf("%s\n", "0");
+//	printf("%s\n", (char *)NULL);
 	printf("---LIB---\n");
-	ft_printf("%s\n\n\n", 0);
+	ft_printf("%s\n\n\n", NULL);
 	printf("----------\n\n");
 
 

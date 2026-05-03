@@ -38,3 +38,13 @@ void	ft_putnbr_u(unsigned int nb)
 	c = n % 10 + '0';
 	write(1, &c, 1);
 }
+
+size_t	ft_strlen(const char *str)
+{
+	size_t	i;
+	
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
