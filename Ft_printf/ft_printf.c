@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yakombo- <yakombo-@learner.42.tech>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/03 16:57:51 by yakombo-          #+#    #+#             */
+/*   Updated: 2026/05/03 16:57:52 by yakombo-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 int	result(va_list ap, char c)
@@ -50,11 +62,11 @@ int	ft_printf(const char *format, ...)
 	va_end(ap);
 	return (len);
 }
-/*
+
 int	main(void)
 {
-	int a = 5;
-	int *p = &a;
+//	int a = 5;
+//	int *p = &a;
 	printf("--- FT - c ---\n");
 	printf("%c\n", 'a');
 	printf("---LIB---\n");
@@ -70,9 +82,9 @@ int	main(void)
 
 
 	printf("--- FT - p ---\n");
-	printf("%p\n", p);
+	printf("%p\n", NULL);
 	printf("---LIB---\n");
-	ft_printf("%p\n\n\n", p);
+	ft_printf("%p\n\n\n", NULL);
 	printf("----------\n\n");
 
 
@@ -118,4 +130,4 @@ int	main(void)
 
 
 
-}*/
+}

@@ -1,9 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf_utils3.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yakombo- <yakombo-@learner.42.tech>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/03 16:58:25 by yakombo-          #+#    #+#             */
+/*   Updated: 2026/05/03 16:58:26 by yakombo-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 int ft_printptr(void *adress)
 {
 	long n;
 
+	if (!adress)
+	{
+		write(1, "(nil)", 5);
+		return (0);
+	}
 	n = count_hex((unsigned long)adress) + 2;
 	write(1, "0x", 2);
 	write_hexa((unsigned long)adress, 'x');
