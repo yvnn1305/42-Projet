@@ -6,13 +6,25 @@
 /*   By: yakombo- <yakombo-@learner.42.tech>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 20:22:24 by yakombo-          #+#    #+#             */
-/*   Updated: 2026/04/30 20:22:29 by yakombo-         ###   ########.fr       */
+/*   Updated: 2026/05/02 20:53:18 by yakombo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	ft_memmove_back(unsigned char *d, unsigned char *s, size_t len)
+static void	ft_copy_forward(unsigned char *d, const unsigned char *s, size_t len)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < len)
+	{
+		d[i] = s[i];
+		i++;
+	}
+}
+
+static void	ft_copy_backward(unsigned char *d, const unsigned char *s, size_t len)
 {
 	while (len > 0)
 	{
@@ -23,25 +35,17 @@ static void	ft_memmove_back(unsigned char *d, unsigned char *s, size_t len)
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	size_t			i;
-	unsigned char	*d;
-	unsigned char	*s;
+	unsigned char		*d;
+	const unsigned char	*s;
 
+	if (!dst && !src)
+		return (NULL);
 	d = (unsigned char *)dst;
-	s = (unsigned char *)src;
-	if (d == s)
-		return (dst);
-	if (d > s)
-		ft_memmove_back(d, s, len);
-	else
-	{
-		i = 0;
-		while (i < len)
-		{
-			d[i] = s[i];
-			i++;
-		}
-	}
+	s = (const unsigned char *)src;
+	if (d < s)
+		ft_copy_forward(d, s, len);
+	else if (d > s)
+		ft_copy_backward(d, s, len);
 	return (dst);
 }
 

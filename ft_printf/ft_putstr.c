@@ -1,39 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yakombo- <yakombo-@learner.42.tech>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/30 20:24:07 by yakombo-          #+#    #+#             */
-/*   Updated: 2026/04/30 20:24:15 by yakombo-         ###   ########.fr       */
+/*   Created: 2026/05/03 16:57:30 by yakombo-          #+#    #+#             */
+/*   Updated: 2026/05/06 15:03:16 by yakombo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-char	*ft_strchr(const char *s, int c)
+int	ft_putstr(char *str)
 {
 	int	i;
+	int	len;
 
 	i = 0;
-	while (s[i])
+	len = 0;
+	if (!str)
 	{
-		if (s[i] == (unsigned char)c)
-			return ((char *)&s[i]);
+		write(1, "(null)", 6);
+		return (6);
+	}
+	while (str[i])
+	{
+		write(1, &str[i], 1);
+		len++;
 		i++;
 	}
-	if ((unsigned char)c == '\0')
-		return ((char *)&s[i]);
-	return (NULL);
+	return (len);
 }
-/*
-int	main(void)
-{
-	char	d1[20] = "Hello";
-	char	d2[20] = "Hello";
-
-	printf("Chaine retournee par la fonction : %s\n", ft_strchr(d1, 'e'));
-	printf("Chaine retournee par la fonction originale : %s\n", strchr(d2, 'e'));
-	return (0);
-}*/

@@ -6,7 +6,7 @@
 /*   By: yakombo- <yakombo-@learner.42.tech>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/30 20:22:15 by yakombo-          #+#    #+#             */
-/*   Updated: 2026/04/30 20:22:16 by yakombo-         ###   ########.fr       */
+/*   Updated: 2026/05/02 20:19:07 by yakombo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	i = 0;
 	dep = (unsigned char *)src;
 	fin = (unsigned char *)dst;
+	if (!dep && !fin)
+		return (0);
 	while (i < n)
 	{
 		fin[i] = dep[i];
