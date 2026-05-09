@@ -12,11 +12,37 @@
 
 #include "get_next_line.h"
 
-char	*get_line()
+char	*get_line(char *stash, int fd)
 {
-	
+	char	*buf;
+	char	*tmp;
+	ssize_t	bytes;
+
+	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buf)
+		return (NULL);
+	bytes = read(fd, buf, BUFFER_SIZE);
+	if (stash == NULL)
+	{
+		stash = malloc(sizeof(char) * (bytes + 1));
+		if (!stash)
+			return (NULL);
+		ft_memcpy(stash, buf, bytes);
+		stash[bytes] = '\0';
+	}
+	while (bytes > 0 && ft_strchr(stash, '\n') == NULL)
+	{
+		tmp = stash;
+		stash = ft_strjoin(stash, buf);
+		free(tmp);
+		
+	}
+	return (stash);
 }
 
+
+
+/*
 char	*get_next_line(int fd)
 {
 	char		stock[BUFFER_SIZE + 1];
@@ -45,8 +71,12 @@ char	*get_next_line(int fd)
 char	*get_stash(char const *s, ssize_t bytes)
 {
 	static char	*stash;
-	
-	stash = 
+
+	stash = NULL;
+}
+
+void	*clear_stash(void)
+{
 }
 /*char *get_next_line(int fd)
 {
@@ -58,7 +88,7 @@ char	*get_stash(char const *s, ssize_t bytes)
 
 int	main(void)
 {
-	int	fd;
+	int fd;
 
 	fd = open("test.txt", O_RDONLY, 0644);
 	if (fd < 0)
