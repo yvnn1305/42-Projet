@@ -6,7 +6,7 @@
 /*   By: yakombo- <yakombo-@learner.42.tech>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 21:59:41 by yakombo-          #+#    #+#             */
-/*   Updated: 2026/05/08 22:32:08 by yakombo-         ###   ########.fr       */
+/*   Updated: 2026/05/10 16:39:50 by yakombo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*ft_strchr(const char *s, int c)
 
 void	*ft_memcpy(void *dst, const void *src, ssize_t n)
 {
-	size_t	i;
+	ssize_t	i;
 	unsigned char	*dest;
 	unsigned char	*srcs;
 
