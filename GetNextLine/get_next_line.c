@@ -6,33 +6,34 @@
 /*   By: yakombo- <yakombo-@learner.42.tech>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 22:41:57 by yakombo-          #+#    #+#             */
-/*   Updated: 2026/05/10 17:36:36 by yakombo-         ###   ########.fr       */
+/*   Updated: 2026/05/15 22:21:59 by yakombo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char    *ft_update_stash(char *stash, char *buf, ssize_t bytes, int fd)
+char	*ft_update_stash(char *stash, char *buf, ssize_t bytes, int fd)
 {
 	char	*tmp;
-	
-	if (stash == NULL)
-	{
-		stash = malloc(sizeof(char) * (bytes + 1));
-		if (!stash)
-			return (NULL);
-		ft_memcpy(stash, buf, bytes);
-		stash[bytes] = '\0';
-	}
+
+	stash = stash_append(stash, buf, bytes);
+	if (!stash)
+		return (NULL);
 	while (bytes > 0 && ft_strchr(stash, '\n') == NULL)
 	{
 		bytes = read(fd, buf, BUFFER_SIZE);
-		buf[bytes] = '\0';    
+		if (bytes < 0)
+		{
+			free(buf);
+			free(stash);
+			return (NULL);
+		}
+		buf[bytes] = '\0';
 		tmp = stash;
 		stash = ft_strjoin(stash, buf);
 		free(tmp);
 	}
-	free(buf);	
+	free(buf);
 	return (stash);
 }
 
@@ -41,13 +42,18 @@ char	*get_line(char *stash, int fd)
 	char	*buf;
 	ssize_t	bytes;
 
+	if (stash && ft_strchr(stash, '\n'))
+		return (stash);
 	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
 		return (NULL);
-	bytes = read(fd, buf, BUFFER_SIZE);	
-	printf("bytes: %zd\n", bytes);
+	bytes = read(fd, buf, BUFFER_SIZE);
+	if (bytes < 0)
+	{
+		free(buf);
+		return (NULL);
+	}
 	stash = ft_update_stash(stash, buf, bytes, fd);
-	printf("stash: %s\n", stash);
 	return (stash);
 }
 
@@ -60,56 +66,65 @@ char	*stash_split(char *stash)
 	res = malloc(sizeof(char) * (len + 1));
 	ft_memcpy(res, stash, len);
 	res[len] = '\0';
-	printf("res: %s\n", res);
 	return (res);
 }
 
 char	*stash_trim(char *stash)
 {
 	char	*tmp;
-	char	*stash_trim;
+	char	*after_newl;
 	char	*new_stash;
 	int		stash_len;
 
 	tmp = stash;
-	stash_trim = ft_strchr(stash, '\n') + 1;
-	stash_len = ft_strlen(stash_trim);
+	after_newl = ft_strchr(stash, '\n') + 1;
+	stash_len = ft_strlen(after_newl);
+	if (stash_len == 0)
+	{
+		free(tmp);
+		return (NULL);
+	}
 	new_stash = malloc(sizeof(char) * (stash_len + 1));
-	ft_memcpy(new_stash, stash_trim, stash_len);
+	ft_memcpy(new_stash, after_newl, stash_len);
 	new_stash[stash_len] = '\0';
 	free(tmp);
-	printf("new_stash: %s\n", new_stash);
 	return (new_stash);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*stash;
-	char	*line;
+	char		*line;
 
 	if (fd < 0 || !BUFFER_SIZE)
 		return (NULL);
 	stash = get_line(stash, fd);
 	if (!stash || !ft_strchr(stash, '\n'))
 	{
-    	line = stash;
-    	stash = NULL;
-    	return (line);
+		line = stash;
+		stash = NULL;
+		return (line);
 	}
 	line = stash_split(stash);
 	stash = stash_trim(stash);
-	printf("line: %s\n", line);
 	return (line);
 }
 
-int	main(void)
+/*int	main(void)
 {
-	int fd;
+	int		fd;
+	char	*line;
 
 	fd = open("test.txt", O_RDONLY, 0644);
 	if (fd < 0)
 		return (1);
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-}
+	line = get_next_line(fd);
+	while (line != NULL)
+	{
+		printf("%s", line);
+		free(line);
+		line = get_next_line(fd);
+	}
+	close(fd);
+	return (0);
+}*/

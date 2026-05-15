@@ -6,7 +6,7 @@
 /*   By: yakombo- <yakombo-@learner.42.tech>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 21:55:21 by yakombo-          #+#    #+#             */
-/*   Updated: 2026/05/10 16:57:34 by yakombo-         ###   ########.fr       */
+/*   Updated: 2026/05/13 14:04:23 by yakombo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 char	*get_next_line(int fd);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen(const char *s);
-void	*ft_memcpy(void *dst, const void *src, ssize_t n);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*stash_append(char *stash, char *buf, ssize_t bytes);
+void	*ft_memcpy(void *dst, const void *src, size_t n);
 char	*ft_strjoin(const char *s1, const char *s2);
 
 #endif

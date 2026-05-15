@@ -6,7 +6,7 @@
 /*   By: yakombo- <yakombo-@learner.42.tech>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 21:59:41 by yakombo-          #+#    #+#             */
-/*   Updated: 2026/05/10 16:39:50 by yakombo-         ###   ########.fr       */
+/*   Updated: 2026/05/15 22:20:47 by yakombo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
+	if (!s)
+		return (0);
 	while (s[i])
 		i++;
 	return (i);
@@ -38,9 +40,9 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-void	*ft_memcpy(void *dst, const void *src, ssize_t n)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	ssize_t	i;
+	size_t			i;
 	unsigned char	*dest;
 	unsigned char	*srcs;
 
@@ -57,30 +59,27 @@ void	*ft_memcpy(void *dst, const void *src, ssize_t n)
 	return (dest);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*stash_append(char *stash, char *buf, ssize_t bytes)
 {
-	char	*sub;
-	size_t	s_len;
+	char	*tmp;
+	char	*new_stash;
 
-	if (!s)
-		return (NULL);
-	s_len = ft_strlen(s);
-	if (start >= s_len)
+	buf[bytes] = '\0';
+	if (stash == NULL)
 	{
-		sub = malloc(sizeof(char));
-		if (!sub)
+		if (bytes == 0)
 			return (NULL);
-		sub[0] = '\0';
-		return (sub);
+		new_stash = malloc(sizeof(char) * (bytes + 1));
+		if (!new_stash)
+			return (NULL);
+		ft_memcpy(new_stash, buf, bytes);
+		new_stash[bytes] = '\0';
+		return (new_stash);
 	}
-	if (len > s_len - start)
-		len = s_len - start;
-	sub = malloc(len + 1);
-	if (!sub)
-		return (NULL);
-	ft_memcpy(sub, s + start, len);
-	sub[len] = '\0';
-	return (sub);
+	tmp = stash;
+	new_stash = ft_strjoin(stash, buf);
+	free(tmp);
+	return (new_stash);
 }
 
 char	*ft_strjoin(const char *s1, const char *s2)
