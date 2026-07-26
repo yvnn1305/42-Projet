@@ -49,7 +49,7 @@ class Plant:
 
     @classmethod
     def anonymous(cls) -> "Plant":
-        return cls("Unknown plant", 0.0, 0.0)
+        return cls("Unknown plant", 0.0, 0)
 
     class Stats:
         def __init__(self) -> None:
