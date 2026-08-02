@@ -3,7 +3,7 @@ import sys
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: ft_archive_creation.py <file>")
+        print("Usage: ft_stream_management.py <file>")
     else:
         print("=== Cyber Archives Recovery & Preservation ===")
         print(f"Accessing file {sys.argv[1]!r}")
@@ -27,14 +27,22 @@ if __name__ == "__main__":
             print(edited)
             print()
             print("---")
-            file = input("Enter new file name (or empty): ")
+            print("Enter new file name (or empty): ", end="")
+            sys.stdout.flush()
+            file = sys.stdin.readline().strip()
             if not file:
                 print("Not saving data.")
             else:
-                f = open(file, "w")
-                print(f"Saving data to {file!r}")
-                f.write(edited)
-                f.close()
-                print(f"Data saved in file {file!r}.")
+                try:
+                    f = open(file, "w")
+                    print(f"Saving data to {file!r}")
+                    f.write(edited)
+                    f.close()
+                    print(f"Data saved in file {file!r}.")
+                except (FileNotFoundError, PermissionError) as e:
+                    print(f"[STDERR] Error opening file {file!r}: {e}",
+                          file=sys.stderr)
+                    print("Data not saved.")
         except (FileNotFoundError, PermissionError) as e:
-            print(f"Error opening file {sys.argv[1]!r}: {str(e)}")
+            print(f"[STDERR] Error opening file {sys.argv[1]!r}: {str(e)}",
+                  file=sys.stderr)
