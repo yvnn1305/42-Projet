@@ -90,7 +90,7 @@ class DataStream:
     def register_processor(self, proc: DataProcessor) -> None:
         self._processor.append(proc)
 
-    def process_stream(self, stream: list[typing.Any]) -> None:
+    def process_stream(self, stream: list[Any]) -> None:
         for element in stream:
             processed = False
 
