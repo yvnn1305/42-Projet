@@ -5,3 +5,4 @@ piscine42/.DS_Store
 __pycache__/
 .vscode/
 *.pyc
+.mypy_cache

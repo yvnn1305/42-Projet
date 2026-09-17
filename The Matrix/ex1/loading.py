@@ -9,14 +9,14 @@ if __name__ == "__main__":
         print(f"[OK] pandas ({pd.__version__}) - Data manipulation ready")
     except ModuleNotFoundError:
         all_ok = False
-        print("[NO OK] Pandas installation failed. Try this command: pip install pandas")
+        print("[KO] Pandas installation failed. Try this command: pip install pandas")
 
     try:
         import numpy as np
         print(f"[OK] numpy ({np.__version__}) - Numerical computation ready")
     except ModuleNotFoundError:
         all_ok = False
-        print("[NO OK] Numpy installation failed. Try this command: pip install numpy")
+        print("[KO] Numpy installation failed. Try this command: pip install numpy")
 
     try:
         import matplotlib
@@ -24,7 +24,7 @@ if __name__ == "__main__":
         print(f"[OK] matplotlib ({matplotlib.__version__}) - Visualization ready")
     except ModuleNotFoundError:
         all_ok = False
-        print("[NO OK] Visualization installation failed. Try this command: pip install matplotlib")
+        print("[KO] Visualization installation failed. Try this command: pip install matplotlib")
 
     if all_ok:
         rng = np.random.default_rng()
