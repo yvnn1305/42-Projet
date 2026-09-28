@@ -1,13 +1,15 @@
-from typing import Any
+from typing import Any, Sequence
 from abc import ABC, abstractmethod
+
 
 class DataProcessor(ABC):
     def __init__(self) -> None:
         self._rang: int = 0
         self._stock: list[str] = []
+
     @abstractmethod
     def validate(self, data: Any) -> bool:
-       pass 
+        pass
 
     @abstractmethod
     def ingest(self, data: Any) -> None:
@@ -19,6 +21,7 @@ class DataProcessor(ABC):
         self._rang += 1
         return (rang, last)
 
+
 class NumericProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
         if isinstance(data, list):
@@ -26,15 +29,14 @@ class NumericProcessor(DataProcessor):
         else:
             return isinstance(data, (int, float))
 
-    def ingest(self, data: int | float | list[int | float]) -> None:
+    def ingest(self, data: int | float | Sequence[int | float]) -> None:
         if not self.validate(data):
             raise ValueError("Improper numeric data")
-        if isinstance(data, list):
+        if isinstance(data, (int, float)):
+            self._stock.append(str(data))
+        else:
             for element in data:
                 self._stock.append(str(element))
-        else:
-            self._stock.append(str(data))
-
 
 
 class TextProcessor(DataProcessor):
@@ -43,32 +45,36 @@ class TextProcessor(DataProcessor):
             return all(isinstance(element, str) for element in data)
         return isinstance(data, str)
 
-    def ingest(self, data: str | list[str]) -> None:
+    def ingest(self, data: str | Sequence[str]) -> None:
         if not self.validate(data):
             raise ValueError("Improper text data")
-        if isinstance(data, list):
+        if isinstance(data, str):
+            self._stock.append(data)
+        else:
             for element in data:
                 self._stock.append(element)
-        else:
-            self._stock.append(data)
+
 
 class LogProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
         if isinstance(data, list):
             return all(isinstance(element, dict) for element in data)
         return isinstance(data, dict)
-    
-    def ingest(self, data: dict[str, str] | list[dict[str, str]]) -> None:
+
+    def ingest(self, data: dict[str, str] | Sequence[dict[str, str]]) -> None:
         if not self.validate(data):
             raise ValueError("Improper log data")
-        if isinstance(data, list):
-            for element in data:
-                transformed = f"{element['log_level']}: {element['log_message']}"
-                self._stock.append(transformed)
-        else:
+        if isinstance(data, dict):
             transformed = f"{data['log_level']}: {data['log_message']}"
             self._stock.append(transformed)
-        
+        else:
+            for element in data:
+                transformed = (
+                    f"{element['log_level']}: "
+                    f"{element['log_message']}"
+                )
+                self._stock.append(transformed)
+
 
 if __name__ == "__main__":
     print("=== Code Nexus - Data Processor ===")

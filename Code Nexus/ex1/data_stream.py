@@ -1,14 +1,16 @@
 from typing import Any
 from abc import ABC, abstractmethod
 
+
 class DataProcessor(ABC):
     def __init__(self) -> None:
         self._total: int = 0
         self._rang: int = 0
         self._stock: list[str] = []
+
     @abstractmethod
     def validate(self, data: Any) -> bool:
-       pass 
+        pass
 
     @abstractmethod
     def ingest(self, data: Any) -> None:
@@ -25,6 +27,7 @@ class DataProcessor(ABC):
 
     def get_total_processed(self) -> int:
         return (self._total)
+
 
 class NumericProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
@@ -45,7 +48,6 @@ class NumericProcessor(DataProcessor):
             self._total += 1
 
 
-
 class TextProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
         if isinstance(data, list):
@@ -63,18 +65,22 @@ class TextProcessor(DataProcessor):
             self._stock.append(data)
             self._total += 1
 
+
 class LogProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
         if isinstance(data, list):
             return all(isinstance(element, dict) for element in data)
         return isinstance(data, dict)
-    
+
     def ingest(self, data: dict[str, str] | list[dict[str, str]]) -> None:
         if not self.validate(data):
             raise ValueError("Improper log data")
         if isinstance(data, list):
             for element in data:
-                transformed = f"{element['log_level']}: {element['log_message']}"
+                transformed = (
+                    f"{element['log_level']}: "
+                    f"{element['log_message']}"
+                )
                 self._stock.append(transformed)
                 self._total += 1
         else:
@@ -86,7 +92,7 @@ class LogProcessor(DataProcessor):
 class DataStream:
     def __init__(self) -> None:
         self._processor: list[DataProcessor] = []
-    
+
     def register_processor(self, proc: DataProcessor) -> None:
         self._processor.append(proc)
 
@@ -110,7 +116,7 @@ class DataStream:
         if len(self._processor) == 0:
             print("No processor found, no data")
             return
-        
+
         for processor in self._processor:
             name = processor.__class__.__name__
             name = name.replace("Processor", " Processor")
@@ -119,8 +125,7 @@ class DataStream:
                   f"remaining {processor.remaining()} on processor")
 
 
-
-def main():
+def main() -> None:
     print("=== Code Nexus - Data Stream ===")
     print()
 
@@ -128,7 +133,7 @@ def main():
     stream = DataStream()
     stream.print_processors_stats()
     print()
-    
+
     print("Registering Numeric Processor")
     numeric = NumericProcessor()
     stream.register_processor(numeric)
@@ -137,8 +142,9 @@ def main():
     input = [
         "Hello world",
         [3.14, -1, 2.71],
-        [{'log_level': 'WARNING', 'log_message': 'Telnet access! Use ssh instead'},
-        {'log_level': 'INFO', 'log_message': 'User wil is connected'}],
+        [{'log_level': 'WARNING',
+          'log_message': 'Telnet access! Use ssh instead'},
+         {'log_level': 'INFO', 'log_message': 'User wil is connected'}],
         42,
         ["Hi", "five"],
     ]
@@ -157,12 +163,15 @@ def main():
     stream.print_processors_stats()
     print()
 
-    print("Consume some elements from the data processors: Numeric 3, Text 2, Log 1")
+    print("Consume some elements from the data processors: "
+          "Numeric 3, Text 2, Log 1")
     for i in range(3):
         numeric.output()
     for i in range(2):
         text.output()
     log.output()
     stream.print_processors_stats()
+
+
 if __name__ == "__main__":
     main()
