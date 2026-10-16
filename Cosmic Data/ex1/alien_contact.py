@@ -3,11 +3,13 @@ from datetime import datetime
 from typing import Annotated, Optional
 from enum import Enum
 
+
 class ContactType(Enum):
     RADIO = "radio"
     VISUAL = "visual"
     PHYSICAL = "physical"
     TELEPATHIC = "telepathic"
+
 
 class AlienContact(BaseModel):
     contact_id: Annotated[str, Field(min_length=5, max_length=15)]
@@ -28,13 +30,17 @@ class AlienContact(BaseModel):
         if self.contact_type == ContactType.PHYSICAL and not self.is_verified:
             raise ValueError("Physical contact needs to be verified")
 
-        if self.contact_type == ContactType.TELEPATHIC and self.witness_count < 3:
-            raise ValueError("Telepathic contact requires at least 3 witnesses")
+        if (self.contact_type == ContactType.TELEPATHIC
+                and self.witness_count < 3):
+            raise ValueError("Telepathic contact requires"
+                             " at least 3 witnesses")
 
         if self.signal_strength > 7.0 and self.message_received is None:
-            raise ValueError("A message is required when the signal is above 7.0")
+            raise ValueError("A message is required when "
+                             "the signal is above 7.0")
 
         return self
+
 
 def main() -> None:
     print("Alien Contact Log Validation")
@@ -45,7 +51,7 @@ def main() -> None:
         contact_id="AC_2024_001",
         timestamp=datetime(2026, 3, 15, 14, 30, 0),
         location="Area 51, Nevada",
-        contact_type= ContactType.RADIO,
+        contact_type=ContactType.RADIO,
         signal_strength=8.5,
         duration_minutes=45,
         witness_count=5,
@@ -78,6 +84,7 @@ def main() -> None:
     except ValidationError as e:
         error = e.errors()[0]['msg'].removeprefix("Value error, ")
         print(f"{error}")
+
 
 if __name__ == "__main__":
     main()
