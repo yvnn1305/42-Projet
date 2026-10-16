@@ -1,16 +1,18 @@
-from ex1 import CreatureFactory, HealingCreatureFactory, TransformCreatureFactory
+from ex1 import CreatureFactory, HealingCreatureFactory, TransformCreatureFactory, HealCapability, TransformCapability
 
 def healing(factory: CreatureFactory) -> None:
     base = factory.create_base()
     print("base:")
     print(base.describe())
     print(base.attack())
+    assert isinstance(base, HealCapability)
     print(base.heal())
 
     evolved = factory.create_evolved()
     print("evolved:")
     print(evolved.describe())
     print(evolved.attack())
+    assert isinstance(evolved, HealCapability)
     print(evolved.heal())
 
 def transform(factory: CreatureFactory) -> None:
@@ -18,6 +20,7 @@ def transform(factory: CreatureFactory) -> None:
     print("base:")
     print(base.describe())
     print(base.attack())
+    assert isinstance(base, TransformCapability)
     print(base.transform())
     print(base.attack())
     print(base.revert())
@@ -26,6 +29,7 @@ def transform(factory: CreatureFactory) -> None:
     print("evolved:")
     print(evolved.describe())
     print(evolved.attack())
+    assert isinstance(evolved, TransformCapability)
     print(evolved.transform())
     print(evolved.attack())
     print(evolved.revert())
