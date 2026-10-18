@@ -29,13 +29,56 @@ def power_validator(min_power: int) -> Callable:
             power = args[0]
             if power >= min_power:
                 return func(*args, **kwargs)
-            return "Insufficent power for this spell"
+            return "Insufficient power for this spell"
         return wrapper
     return decorator
+
 
 @power_validator(10)
 def cast(power: int, name: str) -> str:
     return f"{name} cast with {power} power"
+
+
+def retry_spell(max_attempts: int) -> Callable:
+    def decorator(func: Callable) -> Callable:
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            for i in range(max_attempts):
+                try:
+                    result = func(*args, **kwargs)
+                    return result
+                except Exception:
+                    print("Spell failed, retrying... (attempt "
+                          f"{i + 1}/{max_attempts})")
+            return f"Spell casting failed after {max_attempts} attempts"
+        return wrapper
+    return decorator
+
+
+@retry_spell(3)
+def unstable_spell(target: str, power: int) -> str:
+    raise ValueError("fizzled")
+
+
+@retry_spell(5)
+def stable_spell(target: str, power: int) -> str:
+    return f"{target} hit for {power}"
+
+
+class MageGuild:
+    @staticmethod
+    def validate_mage_name(name: str) -> bool:
+        repl = name.replace(" ", "")
+        if len(name) >= 3 and repl.isalpha():
+            return True
+        else:
+            return False
+
+    def cast_spell(self, spell_name: str, power: int) -> str:
+        @power_validator(10)
+        def _do_cast(power: int, spell_name: str) -> str:
+            return f"Successfully cast {spell_name} with {power} power"
+        return _do_cast(power, spell_name)
 
 
 if __name__ == "__main__":
@@ -46,3 +89,16 @@ if __name__ == "__main__":
     print("Testing power validator...")
     print(cast(15, "Lightning"))
     print(cast(5, "Spark"))
+    print()
+
+    print("Testing retry spell...")
+    print(unstable_spell("Dragon", 50))
+    print(stable_spell("Dragon", 50))
+    print()
+
+    print("Testing MageGuild...")
+    guild = MageGuild()
+    print(MageGuild.validate_mage_name("Y ann"))
+    print(MageGuild.validate_mage_name("Yan/n"))
+    print(guild.cast_spell("Lightning", 15))
+    print(guild.cast_spell("Spark", 5))
